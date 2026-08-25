@@ -63,13 +63,15 @@ async def run():
 
     await browser.close()
 
-    # Guardamos los resultados automáticamente en un archivo JSON local
-    with open("canales_actualizados.json", "w", encoding="utf-8") as f:
-      json.dump(resultados_canales, f, indent=4, ensure_ascii=False)
+    # Guardamos los resultados directamente como un archivo JavaScript
+    contenido_js = f"const channels = {json.dumps(resultados_canales, indent=4, ensure_ascii=False)};"
+    
+    with open("channels.js", "w", encoding="utf-8") as f:
+        f.write(contenido_js)
 
     print(
-        "\n✨ ¡Escaneo finalizado con éxito! Archivo 'canales_actualizados.json'"
-        " generado."
+        "\n✨ ¡Escaneo finalizado con éxito! Archivo 'channels.js' "
+        "generado correctamente."
     )
 
 

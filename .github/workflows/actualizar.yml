@@ -35,6 +35,6 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions@github.com"
-          git add canales_actualizados.json
-          git commit -m "Auto-actualización de enlaces .m3u8 🤖" || echo "No hay cambios para guardar"
+          git add channels.js
+          git commit -m "Auto-actualización de canales.js 🤖" || echo "No hay cambios para guardar"
           git push

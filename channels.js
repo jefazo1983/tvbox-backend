@@ -1,47 +1,34 @@
 const channels = [
-    { 
-        name: "DSports", 
-        logo: "https://upload.wikimedia.org/wikipedia/commons/4/45/Directv_Sports_logo_2020.svg", 
-        url: "https://si.tudeporteshoy.xyz/dsports/tracks-v1a1/mono.m3u8?ip=181.115.161.168&token=ba1dcb332f89ed2e1febe0ef9a24de65f0aac84d-5e-1787646215-1787592215" 
+    {
+        "name": "DSports",
+        "url": "https://so.tudeporteshoy.xyz/dsports/tracks-v1a1/mono.m3u8?ip=40.65.58.131&token=9ac576b7aa68d702bbd5b0f7a165c9d261f45c3b-a1-1787740530-1787686530"
     },
-    { 
-        name: "DSports 2", 
-        logo: "https://upload.wikimedia.org/wikipedia/commons/4/45/Directv_Sports_logo_2020.svg", 
-        url: "https://se.tudeporteshoy.xyz/dsports2/tracks-v1a1/mono.m3u8?ip=181.115.161.168&token=b8e3ed989ad113bf1c3c1a9bdeb88c254986c7dd-40-1787646359-1787592359" 
+    {
+        "name": "DSports 2",
+        "url": "https://si.tudeporteshoy.xyz/dsports2/tracks-v1a1/mono.m3u8?ip=40.65.58.131&token=7c62d24a044ebf9ea0139ae7321320a9cc4ff918-6d-1787740536-1787686536"
     },
-    { 
-        name: "DSports +", 
-        logo: "https://upload.wikimedia.org/wikipedia/commons/4/45/Directv_Sports_logo_2020.svg", 
-        url: "https://po.tudeporteshoy.xyz/dsportsplus/tracks-v1a1/mono.m3u8?ip=181.115.161.168&token=89062dfef4ba7f690d2d3f2a8e92138452449780-5d-1787646413-1787592413" 
+    {
+        "name": "DSports +",
+        "url": "https://si.tudeporteshoy.xyz/dsportsplus/tracks-v1a1/mono.m3u8?ip=40.65.58.131&token=66f2a579ecc0861b1d5ac8ad0b0b9854f4331317-66-1787740542-1787686542"
     },
-    { 
-        name: "ESPN", 
-        logo: "https://upload.wikimedia.org/wikipedia/commons/2/2a/ESPN_logo.svg", 
-        url: "https://sa.tudeporteshoy.xyz/espn/tracks-v1a1/mono.m3u8?ip=181.115.161.168&token=88af72a51c8651179677a908558e6dd63c8ee9d1-a7-1787646620-1787592620" 
+    {
+        "name": "ESPN",
+        "url": "https://s2.tudeporteshoy.xyz/espn/tracks-v1a1/mono.m3u8?ip=40.65.58.131&token=31178991267582d4158169fbef4322546d7b956c-30-1787740547-1787686547"
     },
-    { 
-        name: "ESPN 2", 
-        logo: "https://upload.wikimedia.org/wikipedia/commons/2/2a/ESPN_logo.svg", 
-        url: "https://po.tudeporteshoy.xyz/espn2/tracks-v1a1/mono.m3u8?ip=181.115.161.168&token=ebca821f58067fa5d3a07758f79577ef1dcbaa57-6b-1787646678-1787592678" 
+    {
+        "name": "ESPN 2",
+        "url": "https://se.tudeporteshoy.xyz/espn2/tracks-v1a1/mono.m3u8?ip=40.65.58.131&token=4fbfb96e89b3db9fc934473a3cc183d532c3e4c0-68-1787740553-1787686553"
     },
-    { 
-        name: "ESPN 3", 
-        logo: "https://upload.wikimedia.org/wikipedia/commons/2/2a/ESPN_logo.svg", 
-        url: "https://sa.tudeporteshoy.xyz/espn3/tracks-v1a1/mono.m3u8?ip=181.115.161.168&token=b6b8e1af54b78bce2a3c999e9d23bb4113868486-94-1787646757-1787592757" 
+    {
+        "name": "ESPN 3",
+        "url": "https://so.tudeporteshoy.xyz/espn3/tracks-v1a1/mono.m3u8?ip=40.65.58.131&token=68b0aa0acca41de70b45ec1bec49cbbc15eb2327-03-1787740559-1787686559"
     },
-    { 
-        name: "ESPN Premium", 
-        logo: "https://upload.wikimedia.org/wikipedia/commons/2/2a/ESPN_logo.svg", 
-        url: "https://sa.tudeporteshoy.xyz/espnpremium/tracks-v1a1/mono.m3u8?ip=181.115.161.168&token=c4905b6301155533c90af9e8036404eaea8178b4-4b-1787646806-1787592806" 
+    {
+        "name": "ESPN Premium",
+        "url": "https://po.tudeporteshoy.xyz/espnpremium/tracks-v1a1/mono.m3u8?ip=40.65.58.131&token=939df43c78a8abd482d98bd7992d9b68d8c0e122-96-1787740565-1787686565"
     },
-    { 
-        name: "TNT Sports", 
-        logo: "https://upload.wikimedia.org/wikipedia/commons/3/3b/TNT_Sports_logo_2017.svg", 
-        url: "https://po.tudeporteshoy.xyz/tntsports/tracks-v1a1/mono.m3u8?ip=181.115.161.168&token=afa9506f0951bcf19fd68e455670831e3334f11e-35-1787646866-1787592866" 
-    },
-    { 
-        name: "ESPN Deportes", 
-        logo: "https://upload.wikimedia.org/wikipedia/commons/2/2a/ESPN_logo.svg", 
-        url: "https://po.tudeporteshoy.xyz/espndeportes/tracks-v1a1/mono.m3u8?ip=181.115.161.168&token=173c0bc63732862a35d2a5005abba8d2e436c0ab-b5-1787646948-1787592948" 
+    {
+        "name": "TNT Sports",
+        "url": "https://si.tudeporteshoy.xyz/tntsports/tracks-v1a1/mono.m3u8?ip=40.65.58.131&token=245d27e7443f82af7bc19dc4bf20a82bfc1b2905-bc-1787740571-1787686571"
     }
 ];

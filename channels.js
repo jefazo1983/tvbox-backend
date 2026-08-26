@@ -1,34 +1,34 @@
 const channels = [
     {
         "name": "DSports",
-        "url": "https://so.tudeporteshoy.xyz/dsports/tracks-v1a1/mono.m3u8?ip=20.109.39.53&token=e6cf7fe30b0239883cdcdd56d36efd74e79591cb-4e-1787825543-1787771543"
+        "url": "https://s2.tudeporteshoy.xyz/dsports/tracks-v1a1/mono.m3u8?ip=64.236.135.17&token=4ffb97aa596174cef24790d0b440124323337e43-82-1787827225-1787773225"
     },
     {
         "name": "DSports 2",
-        "url": "https://s1.tudeporteshoy.xyz/dsports2/tracks-v1a1/mono.m3u8?ip=20.109.39.53&token=dc2a331fb042ca9908af5d98a0c92ce8fc27c7d1-d7-1787825549-1787771549"
+        "url": "https://si.tudeporteshoy.xyz/dsports2/tracks-v1a1/mono.m3u8?ip=64.236.135.17&token=337c23d2801066416128586dd7ba53809a562910-b5-1787827231-1787773231"
     },
     {
         "name": "DSports +",
-        "url": "https://sa.tudeporteshoy.xyz/dsportsplus/tracks-v1a1/mono.m3u8?ip=20.109.39.53&token=6fe5d84dfd0cc667b35a4d6799d2d581df3871db-01-1787825554-1787771554"
+        "url": "https://se.tudeporteshoy.xyz/dsportsplus/tracks-v1a1/mono.m3u8?ip=64.236.135.17&token=1127a0ea8de28b2314c3aedb6b909df50baf6b0b-73-1787827237-1787773237"
     },
     {
         "name": "ESPN",
-        "url": "https://so.tudeporteshoy.xyz/espn/tracks-v1a1/mono.m3u8?ip=20.109.39.53&token=9456439d8da863ebe82db5903abb3d250e447b31-b2-1787825560-1787771560"
+        "url": "https://sa.tudeporteshoy.xyz/espn/tracks-v1a1/mono.m3u8?ip=64.236.135.17&token=e08d3e57e6e29ef80612e232d10ab4a5b8f8a6ad-7f-1787827242-1787773242"
     },
     {
         "name": "ESPN 2",
-        "url": "https://s2.tudeporteshoy.xyz/espn2/tracks-v1a1/mono.m3u8?ip=20.109.39.53&token=cd7c1783c9e61bce49f4915995022cdb63a62240-f3-1787825566-1787771566"
+        "url": "https://s1.tudeporteshoy.xyz/espn2/tracks-v1a1/mono.m3u8?ip=64.236.135.17&token=11e26d090ecb416b4e10aeceb777581995903db1-21-1787827248-1787773248"
     },
     {
         "name": "ESPN 3",
-        "url": "https://so.tudeporteshoy.xyz/espn3/tracks-v1a1/mono.m3u8?ip=20.109.39.53&token=a0e71c547876041bd7ac9b135c4b8b30c7c97314-f2-1787825571-1787771571"
+        "url": "https://sa.tudeporteshoy.xyz/espn3/tracks-v1a1/mono.m3u8?ip=64.236.135.17&token=3395e7652bb4e1914e342900cb33b5bd6b858f57-fb-1787827254-1787773254"
     },
     {
         "name": "ESPN Premium",
-        "url": "https://po.tudeporteshoy.xyz/espnpremium/tracks-v1a1/mono.m3u8?ip=20.109.39.53&token=395e4dc51b168b85979bb36138de44154dd100e2-94-1787825577-1787771577"
+        "url": "https://so.tudeporteshoy.xyz/espnpremium/tracks-v1a1/mono.m3u8?ip=64.236.135.17&token=0fd637d7949336913e471fefe48a12531f7c2a73-94-1787827259-1787773259"
     },
     {
         "name": "TNT Sports",
-        "url": "https://po.tudeporteshoy.xyz/tntsports/tracks-v1a1/mono.m3u8?ip=20.109.39.53&token=680f57e991f9160dae250ea264def822c726f3d2-b1-1787825583-1787771583"
+        "url": "https://so.tudeporteshoy.xyz/tntsports/tracks-v1a1/mono.m3u8?ip=64.236.135.17&token=8e51e41b8414d66c02fdbe5743f8ec9774897055-49-1787827265-1787773265"
     }
 ];

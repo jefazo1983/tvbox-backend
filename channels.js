@@ -1,7 +1,7 @@
 const channels = [
     {
         "name": "DSports",
-        "url": "https://se.tudeporteshoy.xyz/dsports/tracks-v1a1/mono.m3u8?ip=64.236.200.84&token=8fb936660ca0dd2450d0cf525c1ca0d5b0c2c70c-22-1787829581-1787775581"
+        'url': 'https://si.tudeporteshoy.xyz/dsports/tracks-v1a1/mono.m3u8?ip=181.115.161.116&token=28b4e965be435073354210515b6167f06a610944-db-1787829187-1787775187
     },
     {
         "name": "DSports 2",

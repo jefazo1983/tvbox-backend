@@ -83,34 +83,66 @@ function playChannel(index) {
 
     showOsd(channel.name);
 
-    setTimeout(() => {
+    // Escudo de seguridad para forzar la desaparición del overlay de carga pase lo que pase
+    const loadTimeout = setTimeout(() => {
         if (overlay) overlay.style.display = 'none';
-    }, 4000);
+    }, 3500);
 
-    video.muted = true; // Forzar silencio inicial para Android WebView
+    video.muted = true; // Obligatorio para móviles/TV Box
     video.volume = 1.0;
 
     if (Hls.isSupported()) {
         if (hls) {
             hls.destroy();
         }
-        hls = new Hls();
+        // Configuración avanzada de HLS para saltar restricciones de red y tokens en la nube
+        hls = new Hls({
+            xhrSetup: function (xhr, url) {
+                xhr.withCredentials = false; // Evita bloqueos de CORS cruzados en GitHub Pages
+            },
+            maxBufferLength: 30,
+            maxMaxBufferLength: 60,
+        });
+        
         hls.loadSource(channel.url);
         hls.attachMedia(video);
+        
         hls.on(Hls.Events.MANIFEST_PARSED, function() {
             video.play().then(() => {
+                clearTimeout(loadTimeout);
                 if (overlay) overlay.style.display = 'none';
             }).catch(() => {
+                clearTimeout(loadTimeout);
                 if (overlay) overlay.style.display = 'none';
             });
         });
+
         hls.on(Hls.Events.ERROR, function(event, data) {
+            console.warn("Aviso HLS:", data.details);
+            if (data.fatal) {
+                switch (data.type) {
+                    case Hls.ErrorTypes.NETWORK_ERROR:
+                        console.log("Error de red, intentando recuperar...");
+                        hls.startLoad();
+                        break;
+                    case Hls.ErrorTypes.MEDIA_ERROR:
+                        console.log("Error de medios, intentando recuperar...");
+                        hls.recoverMediaError();
+                        break;
+                    default:
+                        hls.destroy();
+                        break;
+                }
+            }
+            clearTimeout(loadTimeout);
             if (overlay) overlay.style.display = 'none';
         });
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = channel.url;
         video.addEventListener('loadedmetadata', function() {
             video.play().catch(() => {});
+            clearTimeout(loadTimeout);
+            if (overlay) overlay.style.display = 'none';
         });
     }
 }

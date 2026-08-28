@@ -1,27 +1,71 @@
-// ESCUDO ANTI-CIERRE Y ANTI-ANUNCIOS REFORZADO
+const channels = [
+    {
+        "name": "DSports",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/4/45/Directv_Sports_logo_2020.svg",
+        "url": "https://98.domhsd.com/dsports/tracks-v1a1/mono.m3u8?ip=181.115.161.231&token=584e5a4639c4430a2a034e32236d88efa1402880-32-1787998471-1787944471"
+    },
+    {
+        "name": "DSports 2",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/4/45/Directv_Sports_logo_2020.svg",
+        "url": "https://193.domhsd.com/dsports2/tracks-v1a1/mono.m3u8?ip=181.115.161.231&token=a366f4a2b5e5a2b55ab5970268d2e9e6ffb3b4a3-6c-1787998479-1787944479"
+    },
+    {
+        "name": "DSports +",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/4/45/Directv_Sports_logo_2020.svg",
+        "url": "https://47.domhsd.com/dsportsplus/tracks-v1a1/mono.m3u8?ip=181.115.161.231&token=9ea0f4d474482b96bdb6c314ffb0c40c7d2e115e-fe-1787998485-1787944485"
+    },
+    {
+        "name": "ESPN",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/2/2a/ESPN_logo.svg",
+        "url": "https://98.domhsd.com/espn/tracks-v1a1/mono.m3u8?ip=181.115.161.231&token=086c9ad5fa41d7adc66a886973d453bb1eb2e3f3-92-1787998492-1787944492"
+    },
+    {
+        "name": "ESPN 2",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/2/2a/ESPN_logo.svg",
+        "url": "https://93.domhsd.com/espn2/tracks-v1a1/mono.m3u8?ip=181.115.161.231&token=aa20d195d46e286d9b5b34fe691094ead3a03592-1f-1787998498-1787944498"
+    },
+    {
+        "name": "ESPN 3",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/2/2a/ESPN_logo.svg",
+        "url": "https://193.domhsd.com/espn3/tracks-v1a1/mono.m3u8?ip=181.115.161.231&token=f9e0e10a0afb813dcd8a8cb7ab78c3055f535bff-b6-1787998505-1787944505"
+    },
+    {
+        "name": "ESPN Premium",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/2/2a/ESPN_logo.svg",
+        "url": "https://98.domhsd.com/espnpremium/tracks-v1a1/mono.m3u8?ip=181.115.161.231&token=6ed55937e19a7462ac343d7ad66ac2206ab1fd37-6b-1787998511-1787944511"
+    },
+    {
+        "name": "TNT Sports",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/3/3b/TNT_Sports_logo_2017.svg",
+        "url": "https://7.domhsd.com/tntsports/tracks-v1a1/mono.m3u8?ip=181.115.161.231&token=9852856b64fdab7d2cc5ed608a64dd4adc491d09-c3-1787998518-1787944518"
+    }
+];
+
+// ==========================================================
+// ESCUDO ANTI-CIERRE Y ANTI-ANUNCIOS ULTRA-AGRESIVO
+// ==========================================================
 window.open = function(url) { 
-    console.log("Intento de apertura bloqueado:", url);
+    console.log("Intento de apertura flotante bloqueado:", url);
     return null; 
 };
 window.alert = function() {};
 window.confirm = function() { return true; };
+window.prompt = function() { return ""; };
 
 window.addEventListener('beforeunload', function (e) {
     e.preventDefault();
     e.returnValue = '';
 });
 
-document.addEventListener('click', function(e) {
-    let target = e.target.closest('a, area');
-    if (target) {
-        let href = target.getAttribute('href');
-        if (href && !href.startsWith('#') && !href.startsWith('javascript:')) {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log("Enlace publicitario neutralizado:", href);
+// Neutralizar la creación dinámica de iframes publicitarios o popups flotantes
+setInterval(() => {
+    const maliciousElements = document.querySelectorAll('iframe[src*="ads"], div[id*="pop"], div[class*="popup"], div[style*="z-index: 2147483647"]');
+    maliciousElements.forEach(el => {
+        if (el !== video && !el.contains(video)) {
+            el.remove();
         }
-    }
-}, true);
+    });
+}, 200);
 
 let currentIndex = 0;
 let hls = null;
@@ -31,8 +75,16 @@ const video = document.getElementById('videoPlayer');
 const overlay = document.getElementById('loadingOverlay');
 const osd = document.getElementById('zappingOsd');
 
+// INTERCEPTOR AGRESIVO DEL BOTÓN ATRÁS (BACK) Y HISTORIAL
+window.addEventListener('popstate', function(event) {
+    window.history.pushState(null, document.title, window.location.href);
+}, true);
+
+window.history.pushState(null, document.title, window.location.href);
+
 function renderChannels() {
     const listContainer = document.getElementById('channelsList');
+    if (!listContainer) return;
     listContainer.innerHTML = '';
     channels.forEach((channel, index) => {
         const item = document.createElement('div');
@@ -75,13 +127,16 @@ function playChannel(index) {
     }
 
     const channel = channels[currentIndex];
-    overlay.style.display = 'flex';
-    document.getElementById('loadingText').innerText = `Cargando ${channel.name}...`;
+    if (overlay) overlay.style.display = 'flex';
+    const loadText = document.getElementById('loadingText');
+    if (loadText) loadText.innerText = `Cargando ${channel.name}...`;
 
     showOsd(channel.name);
 
-    video.onplaying = () => { overlay.style.display = 'none'; };
-    video.oncanplay = () => { overlay.style.display = 'none'; };
+    // Seguridad de tiempo máximo de carga para evitar bloqueo visual
+    setTimeout(() => {
+        if (overlay) overlay.style.display = 'none';
+    }, 4000);
 
     video.muted = false;
     video.volume = 1.0;
@@ -94,19 +149,23 @@ function playChannel(index) {
         hls.loadSource(channel.url);
         hls.attachMedia(video);
         hls.on(Hls.Events.MANIFEST_PARSED, function() {
-            video.play().catch(e => {
+            video.play().catch(() => {
                 video.muted = true;
                 video.play().then(() => {
                     video.muted = false;
-                });
+                }).catch(() => {});
             });
+        });
+        hls.on(Hls.Events.ERROR, function(event, data) {
+            console.warn("Error HLS detectado:", data);
+            if (overlay) overlay.style.display = 'none';
         });
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = channel.url;
         video.addEventListener('loadedmetadata', function() {
             video.play().catch(() => {
                 video.muted = true;
-                video.play().then(() => { video.muted = false; });
+                video.play().then(() => { video.muted = false; }).catch(() => {});
             });
         });
     }
@@ -114,6 +173,7 @@ function playChannel(index) {
 
 let osdTimeout;
 function showOsd(text) {
+    if (!osd) return;
     osd.innerText = text;
     osd.style.display = 'block';
     clearTimeout(osdTimeout);
@@ -122,56 +182,31 @@ function showOsd(text) {
     }, 2500);
 }
 
-// ==========================================================
-// BLOQUEO DE ENLACES EXTERNOS
-// ==========================================================
-document.addEventListener('click', function(e) {
-    let target = e.target.closest('a');
-    if (target) {
-        let href = target.getAttribute('href');
-        if (href && !href.startsWith('#') && !href.startsWith(window.location.origin)) {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log("Intento de redirección externa bloqueado:", href);
-        }
-    }
-}, true);
-
-
-// ==========================================================
-// 2. CONTROL REMOTO INTELIGENTE (MEJORADO PARA BOTÓN BACK)
-// ==========================================================
+// CONTROL REMOTO INTELIGENTE Y BLOQUEO DE TECLAS
 document.addEventListener('keydown', (e) => {
     const activeElement = document.activeElement;
     const isInSidebar = activeElement && activeElement.classList.contains('channel-item');
 
-    // Detección universal del botón Back / Atrás en TV Box y Navegadores
     const isBackKey = e.key === 'Escape' || 
                       e.key === 'BrowserBack' || 
                       e.keyCode === 8 || 
                       e.keyCode === 461 || 
-                      e.code === 'Back';
+                      e.code === 'Back' ||
+                      e.key === 'GoBack';
 
     if (isBackKey) {
-        // Bloqueamos por completo el comportamiento predeterminado del sistema
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
         
         if (isFullscreen) {
-            // Si estás viendo el video en pantalla completa, el primer "Atrás" solo sale de la pantalla completa
             toggleFullscreen();
         } else {
-            // Si estás en el menú principal, exige un doble toque rápido (menos de 900 milisegundos)
             const currentTime = new Date().getTime();
-            if (currentTime - lastBackPress < 900) {
-                // Segundo toque rápido: permite salir de la app de forma limpia
-                try {
-                    window.location.href = 'about:blank';
-                } catch(err) {}
+            if (currentTime - lastBackPress < 1000) {
+                try { window.history.go(-1); } catch(err) {}
                 window.close();
             } else {
-                // Primer toque: activa la alerta y guarda el tiempo
                 lastBackPress = currentTime;
                 showOsd("Presiona Atrás nuevamente para salir de la App");
             }
@@ -240,27 +275,21 @@ function toggleFullscreen() {
     }
 }
 
-setInterval(() => {
-    const elements = document.querySelectorAll('iframe, div[id*="google_ads"], ins.adsbygoogle, div[style*="z-index: 2147483647"]');
-    elements.forEach(el => {
-        if (el !== video && !el.contains(video)) {
-            el.remove();
-        }
-    });
-}, 400);
-
+// INICIO AUTOMÁTICO AL CARGAR LA PÁGINA
 window.onload = () => {
     renderChannels();
     
     setTimeout(() => {
         const splash = document.getElementById('splashScreen');
-        splash.style.opacity = '0';
-        setTimeout(() => {
-            splash.style.display = 'none';
-        }, 600);
+        if (splash) {
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.style.display = 'none';
+            }, 600);
+        }
 
         playChannel(0); 
         const firstItem = document.querySelector('.channel-item');
         if (firstItem) firstItem.focus();
-    }, 2200);
+    }, 1500);
 };

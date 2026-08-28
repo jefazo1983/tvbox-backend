@@ -31,4 +31,12 @@ const channels = [
     },
     {
         "name": "ESPN Premium",
-  
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/2/2a/ESPN_logo.svg",
+        "url": "https://98.domhsd.com/espnpremium/tracks-v1a1/mono.m3u8?ip=181.115.161.231&token=6ed55937e19a7462ac343d7ad66ac2206ab1fd37-6b-1787998511-1787944511"
+    },
+    {
+        "name": "TNT Sports",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/3/3b/TNT_Sports_logo_2017.svg",
+        "url": "https://7.domhsd.com/tntsports/tracks-v1a1/mono.m3u8?ip=181.115.161.231&token=9852856b64fdab7d2cc5ed608a64dd4adc491d09-c3-1787998518-1787944518"
+    }
+];

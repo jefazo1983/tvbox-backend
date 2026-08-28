@@ -41,13 +41,8 @@ const channels = [
     }
 ];
 
-// ==========================================================
 // ESCUDO ANTI-CIERRE Y ANTI-ANUNCIOS ULTRA-AGRESIVO
-// ==========================================================
-window.open = function(url) { 
-    console.log("Intento de apertura flotante bloqueado:", url);
-    return null; 
-};
+window.open = function(url) { return null; };
 window.alert = function() {};
 window.confirm = function() { return true; };
 window.prompt = function() { return ""; };
@@ -55,9 +50,8 @@ window.prompt = function() { return ""; };
 window.addEventListener('beforeunload', function (e) {
     e.preventDefault();
     e.returnValue = '';
-});
+}, true);
 
-// Neutralizar la creación dinámica de iframes publicitarios o popups flotantes
 setInterval(() => {
     const maliciousElements = document.querySelectorAll('iframe[src*="ads"], div[id*="pop"], div[class*="popup"], div[style*="z-index: 2147483647"]');
     maliciousElements.forEach(el => {
@@ -75,7 +69,6 @@ const video = document.getElementById('videoPlayer');
 const overlay = document.getElementById('loadingOverlay');
 const osd = document.getElementById('zappingOsd');
 
-// INTERCEPTOR AGRESIVO DEL BOTÓN ATRÁS (BACK) Y HISTORIAL
 window.addEventListener('popstate', function(event) {
     window.history.pushState(null, document.title, window.location.href);
 }, true);
@@ -133,12 +126,11 @@ function playChannel(index) {
 
     showOsd(channel.name);
 
-    // Seguridad de tiempo máximo de carga para evitar bloqueo visual
     setTimeout(() => {
         if (overlay) overlay.style.display = 'none';
     }, 4000);
 
-    video.muted = false;
+    video.muted = true; // Forzar silencio inicial para Android WebView
     video.volume = 1.0;
 
     if (Hls.isSupported()) {
@@ -149,24 +141,19 @@ function playChannel(index) {
         hls.loadSource(channel.url);
         hls.attachMedia(video);
         hls.on(Hls.Events.MANIFEST_PARSED, function() {
-            video.play().catch(() => {
-                video.muted = true;
-                video.play().then(() => {
-                    video.muted = false;
-                }).catch(() => {});
+            video.play().then(() => {
+                if (overlay) overlay.style.display = 'none';
+            }).catch(() => {
+                if (overlay) overlay.style.display = 'none';
             });
         });
         hls.on(Hls.Events.ERROR, function(event, data) {
-            console.warn("Error HLS detectado:", data);
             if (overlay) overlay.style.display = 'none';
         });
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = channel.url;
         video.addEventListener('loadedmetadata', function() {
-            video.play().catch(() => {
-                video.muted = true;
-                video.play().then(() => { video.muted = false; }).catch(() => {});
-            });
+            video.play().catch(() => {});
         });
     }
 }
@@ -182,7 +169,6 @@ function showOsd(text) {
     }, 2500);
 }
 
-// CONTROL REMOTO INTELIGENTE Y BLOQUEO DE TECLAS
 document.addEventListener('keydown', (e) => {
     const activeElement = document.activeElement;
     const isInSidebar = activeElement && activeElement.classList.contains('channel-item');
@@ -275,24 +261,10 @@ function toggleFullscreen() {
     }
 }
 
-// INICIO AUTOMÁTICO SEGURO PARA MÓVILES Y TV BOX
+// ARRANQUE INMEDIATO SIN SPLASH SCREEN
 window.onload = () => {
     renderChannels();
-    
-    // Forzar que el video inicie silenciado para que Android/WebView no bloquee el arranque
-    video.muted = true;
-
-    setTimeout(() => {
-        const splash = document.getElementById('splashScreen');
-        if (splash) {
-            splash.style.opacity = '0';
-            setTimeout(() => {
-                splash.style.display = 'none';
-            }, 600);
-        }
-
-        playChannel(0); 
-        const firstItem = document.querySelector('.channel-item');
-        if (firstItem) firstItem.focus();
-    }, 1200);
+    playChannel(0); 
+    const firstItem = document.querySelector('.channel-item');
+    if (firstItem) firstItem.focus();
 };

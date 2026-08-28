@@ -275,10 +275,13 @@ function toggleFullscreen() {
     }
 }
 
-// INICIO AUTOMÁTICO AL CARGAR LA PÁGINA
+// INICIO AUTOMÁTICO SEGURO PARA MÓVILES Y TV BOX
 window.onload = () => {
     renderChannels();
     
+    // Forzar que el video inicie silenciado para que Android/WebView no bloquee el arranque
+    video.muted = true;
+
     setTimeout(() => {
         const splash = document.getElementById('splashScreen');
         if (splash) {
@@ -291,5 +294,5 @@ window.onload = () => {
         playChannel(0); 
         const firstItem = document.querySelector('.channel-item');
         if (firstItem) firstItem.focus();
-    }, 1500);
+    }, 1200);
 };

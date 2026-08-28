@@ -74,9 +74,9 @@ body {
     margin-top: 10px;
 }
 
-/* DISEÑO DE DOS COLUMNAS */
+/* DISEÑO DE DOS COLUMNAS (POR DEFECTO TV BOX) */
 .sidebar {
-    width: 240px;
+    width: 280px;
     background-color: #111827;
     border-right: 2px solid #1f2937;
     display: flex;
@@ -105,7 +105,7 @@ body {
     background-color: #1f2937;
     color: #d1d5db;
     border: 2px solid transparent;
-    padding: 10px 14px;
+    padding: 12px 14px;
     border-radius: 8px;
     cursor: pointer;
     display: flex;
@@ -155,7 +155,7 @@ video {
     outline: none;
 }
 
-/* MODO PANTALLA COMPLETA */
+/* MODO PANTALLA COMPLETA EN TV */
 body.fullscreen-mode .sidebar {
     display: none !important;
 }
@@ -210,4 +210,34 @@ body.fullscreen-mode .main-content {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* ==========================================================
+   ADAPTACIÓN INTELIGENTE PARA CELULARES (PANTALLAS MÁS ESTRECHAS)
+   ========================================================== */
+@media screen and (max-width: 768px) {
+    body {
+        flex-direction: column; /* Apila el video arriba y la lista abajo en móviles */
+    }
+    
+    .main-content {
+        width: 100vw;
+        height: 40vh; /* El video ocupa la mitad superior en el celular */
+        flex: none;
+    }
+
+    .sidebar {
+        width: 100vw;
+        height: 60vh; /* La lista de canales ocupa el resto de la pantalla táctil */
+        border-right: none;
+        border-top: 2px solid #1f2937;
+    }
+
+    /* Si se activa la pantalla completa en celular, oculta la lista y expande el video */
+    body.fullscreen-mode .sidebar {
+        display: none !important;
+    }
+    body.fullscreen-mode .main-content {
+        height: 100vh;
+    }
 }

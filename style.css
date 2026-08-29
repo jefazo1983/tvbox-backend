@@ -105,3 +105,12 @@ body.fullscreen-mode .main-content { width: 100vw; height: 100vh; }
     opacity: 0;
     visibility: hidden;
 }
+
+.channel-logo { 
+    width: 38px; 
+    height: 38px; 
+    object-fit: contain; /* Evita que la imagen se deforme */
+    background-color: rgba(255, 255, 255, 0.03); 
+    border-radius: 8px; 
+    padding: 3px; 
+}

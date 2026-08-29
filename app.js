@@ -100,7 +100,7 @@ function playChannel(index) {
     updateActiveChannelUI();
     
     const items = document.querySelectorAll('.channel-item');
-    if (items[currentIndex]) {
+    if (items[currentIndex] && document.activeElement && document.activeElement.classList.contains('channel-item')) {
         items[currentIndex].focus();
     }
 
@@ -187,7 +187,7 @@ function showOsd(text) {
 }
 
 // ==========================================
-// GESTIÓN DE PANTALLA COMPLETA (BOTÓN Y MANDO)
+// GESTIÓN DE PANTALLA COMPLETA Y FOCO DERECHO
 // ==========================================
 if (fullscreenBtn) {
     fullscreenBtn.onclick = () => {
@@ -203,18 +203,16 @@ function toggleFullscreen() {
         document.body.classList.add('fullscreen-mode');
         showOsd(channels[currentIndex].name);
 
-        // Activar pantalla completa nativa del navegador (Funciona en móviles y PC)
         if (container.requestFullscreen) {
             container.requestFullscreen();
         } else if (container.webkitRequestFullscreen) {
             container.webkitRequestFullscreen();
         } else if (video.webkitEnterFullscreen) {
-            video.webkitEnterFullscreen(); // Específico para algunos iOS / Safari móvil
+            video.webkitEnterFullscreen();
         }
     } else {
         document.body.classList.remove('fullscreen-mode');
         
-        // Salir de pantalla completa nativa
         if (document.fullscreenElement || document.webkitFullscreenElement) {
             if (document.exitFullscreen) {
                 document.exitFullscreen();
@@ -223,22 +221,28 @@ function toggleFullscreen() {
             }
         }
         
-        const currentItem = document.querySelectorAll('.channel-item')[currentIndex];
-        if (currentItem) currentItem.focus();
+        // Mantener el foco en la parte derecha (en el botón de pantalla completa) en lugar de botarlo a la izquierda
+        if (fullscreenBtn) {
+            fullscreenBtn.focus();
+        }
     }
 }
 
-// Detectar si el usuario sale de pantalla completa mediante la tecla ESC del navegador
 document.addEventListener('fullscreenchange', () => {
     if (!document.fullscreenElement && !document.webkitFullscreenElement) {
         isFullscreen = false;
         document.body.classList.remove('fullscreen-mode');
+        if (fullscreenBtn) {
+            fullscreenBtn.focus();
+        }
     }
 });
 
 document.addEventListener('keydown', (e) => {
     const activeElement = document.activeElement;
     const isInSidebar = activeElement && activeElement.classList.contains('channel-item');
+    const isFocusOnRight = activeElement === fullscreenBtn;
+
     const isBackKey = e.key === 'Escape' || e.key === 'BrowserBack' || e.keyCode === 8 || e.keyCode === 461 || e.code === 'Back' || e.key === 'GoBack';
 
     if (isBackKey) {
@@ -261,11 +265,26 @@ document.addEventListener('keydown', (e) => {
         return false;
     }
 
+    // Flecha derecha desde la barra lateral: mueve el foco al botón de pantalla completa de la derecha
+    if (e.key === 'ArrowRight' && isInSidebar) {
+        e.preventDefault();
+        if (fullscreenBtn) fullscreenBtn.focus();
+        return;
+    }
+
+    // Flecha izquierda desde el botón de la derecha: regresa el foco a la lista de canales
+    if (e.key === 'ArrowLeft' && isFocusOnRight && !isFullscreen) {
+        e.preventDefault();
+        const currentItem = document.querySelectorAll('.channel-item')[currentIndex];
+        if (currentItem) currentItem.focus();
+        return;
+    }
+
     if (e.key === 'Enter') {
         e.preventDefault();
         if (isInSidebar) {
             playChannel(currentIndex);
-        } else {
+        } else if (isFocusOnRight || activeElement === video) {
             toggleFullscreen();
         }
         return;

@@ -4,11 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JefazoBox TV</title>
-    <!-- HLS.js por CDN para asegurar compatibilidad total sin depender de archivos locales rotos -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- 🌟 TU PROPIO SPLASH SCREEN PERSONALIZADO -->
+    <div id="customSplash" class="custom-splash">
+        <div class="splash-content">
+            <!-- Puedes cambiar esta imagen por el enlace de tu propio logo -->
+            <img src="https://i.imgur.com/8359y87.png" alt="Logo" class="splash-logo">
+            <h1>JefazoBox TV</h1>
+            <p>Cargando tu entretenimiento...</p>
+            <div class="splash-spinner"></div>
+        </div>
+    </div>
 
     <!-- MENÚ LATERAL DE CANALES -->
     <div class="sidebar" id="sidebar">
@@ -26,12 +36,10 @@
                 <span id="loadingText">Cargando transmisión...</span>
             </div>
             <div id="zappingOsd" class="zapping-osd">Canal 1</div>
-            <!-- Se quita 'controls' nativo para que luzca como app de TV limpia -->
             <video id="videoPlayer" autoplay playsinline></video>
         </div>
     </div>
 
-    <!-- ARCHIVOS SEPARADOS -->
     <script src="channels.js"></script>
     <script src="app.js"></script>
 </body>

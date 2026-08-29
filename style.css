@@ -74,3 +74,31 @@ body.fullscreen-mode .main-content { width: 100vw; height: 100vh; }
     .sidebar { width: 100vw; height: 45vh; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
     .main-content { width: 100vw; height: 55vh; flex: none; }
 }
+
+/* --- BOTÓN FLOTANTE DE PANTALLA COMPLETA --- */
+.fullscreen-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    color: #38bdf8;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.fullscreen-btn:hover {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #38bdf8;
+    transform: scale(1.05);
+}

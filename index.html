@@ -9,10 +9,9 @@
 </head>
 <body>
 
-    <!-- 🌟 TU PROPIO SPLASH SCREEN PERSONALIZADO -->
+    <!-- 🌟 SPLASH SCREEN PERSONALIZADO -->
     <div id="customSplash" class="custom-splash">
         <div class="splash-content">
-            <!-- LOGO SVG INTEGRADO (Nunca falla y no necesita enlaces externos) -->
             <div class="splash-logo-container">
                 <svg class="splash-svg-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect x="2" y="4" width="20" height="15" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="2"/>
@@ -26,16 +25,19 @@
         </div>
     </div>
 
-    <!-- MENÚ LATERAL DE CANALES -->
-    <div class="sidebar-header">
-        <div class="header-brand">
-            <svg class="header-svg-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="2" y="4" width="20" height="15" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="2"/>
-                <path d="M12 19V22M8 22H16" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
-                <path d="M10 9L15 11.5L10 14V9Z" fill="#ffffff"/>
-            </svg>
-            <span>JefazoBox <span class="badge">PRO</span></span>
+    <!-- MENÚ LATERAL DE CANALES (RECUPERADO) -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="header-brand">
+                <svg class="header-svg-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="4" width="20" height="15" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="2"/>
+                    <path d="M12 19V22M8 22H16" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M10 9L15 11.5L10 14V9Z" fill="#ffffff"/>
+                </svg>
+                <span>JefazoBox <span class="badge">PRO</span></span>
+            </div>
         </div>
+        <div class="channels-list" id="channelsList"></div>
     </div>
 
     <!-- PANTALLA DERECHA: REPRODUCTOR -->

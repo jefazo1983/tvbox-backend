@@ -1,10 +1,12 @@
+// ==========================================
 // ESCUDO ANTI-ANUNCIOS Y ANTI-POPUPS ULTRA-AGRESIVO
+// ==========================================
 window.open = function(url) { return null; };
 window.alert = function() {};
 window.confirm = function() { return true; };
 window.prompt = function() { return ""; };
 
-// Limpieza automática cada 200ms de cualquier elemento publicitario inyectado por WebIntoApp u otras plataformas
+// Limpieza automática cada 200ms de elementos publicitarios inyectados
 setInterval(() => {
     const maliciousElements = document.querySelectorAll('iframe[src*="ads"], div[id*="pop"], div[class*="popup"], div[style*="z-index: 2147483647"]');
     maliciousElements.forEach(el => {
@@ -14,6 +16,9 @@ setInterval(() => {
     });
 }, 200);
 
+// ==========================================
+// VARIABLES GLOBALES Y ELEMENTOS
+// ==========================================
 let currentIndex = 0;
 let hls = null;
 let isFullscreen = false;
@@ -29,6 +34,9 @@ window.addEventListener('popstate', function(event) {
 }, true);
 window.history.pushState(null, document.title, window.location.href);
 
+// ==========================================
+// RENDERIZADO DE CANALES Y LOGOS SVG
+// ==========================================
 function renderChannels() {
     const listContainer = document.getElementById('channelsList');
     if (!listContainer) return;
@@ -41,7 +49,7 @@ function renderChannels() {
         item.className = `channel-item ${index === currentIndex ? 'active' : ''}`;
         item.tabIndex = 0;
         
-        // Generador inteligente de logos SVG por código (sin enlaces externos)
+        // Generador inteligente de logos SVG por código
         let svgLogo = '';
         if (channel.type.includes('dsports')) {
             svgLogo = `<svg viewBox="0 0 24 24" fill="#0284c7"><path d="M4 6h16v12H4z" opacity="0.2"/><path d="M6 9h12v6H6z" fill="#38bdf8"/><text x="7" y="14" fill="#fff" font-size="7" font-weight="bold">DS</text></svg>`;
@@ -74,6 +82,9 @@ function updateActiveChannelUI() {
     });
 }
 
+// ==========================================
+// REPRODUCTOR Y GESTIÓN DE CANALES
+// ==========================================
 function playChannel(index) {
     if (typeof channels === 'undefined') return;
     if (index < 0) index = channels.length - 1;
@@ -98,7 +109,7 @@ function playChannel(index) {
         if (overlay) overlay.style.display = 'none';
     }, 3500);
 
-    // SOLUCIÓN DE AUDIO: Forzar sonido activo al 100%
+    // Forzar sonido activo al 100%
     video.muted = false;
     video.volume = 1.0;
 
@@ -122,7 +133,7 @@ function playChannel(index) {
                 clearTimeout(loadTimeout);
                 if (overlay) overlay.style.display = 'none';
             }).catch(() => {
-                // Si el navegador bloquea el audio automático por políticas de seguridad, lo silencia momentáneamente para arrancar el video
+                // Silenciar momentáneamente si el navegador bloquea el autoplay con sonido
                 video.muted = true;
                 video.play();
                 clearTimeout(loadTimeout);
@@ -153,7 +164,7 @@ function playChannel(index) {
     }
 }
 
-// Desbloqueo general de audio al primer toque/clic (ideal para celulares)
+// Desbloqueo universal de audio al primer clic/toque
 document.addEventListener('click', () => {
     if (video.muted) {
         video.muted = false;
@@ -161,6 +172,9 @@ document.addEventListener('click', () => {
     }
 }, { once: true });
 
+// ==========================================
+// OSD (MENSAJE FLOTANTE)
+// ==========================================
 let osdTimeout;
 function showOsd(text) {
     if (!osd) return;
@@ -172,7 +186,9 @@ function showOsd(text) {
     }, 2500);
 }
 
-// CONTROL DE MANDO / TECLADO
+// ==========================================
+// CONTROL DE MANDO / TECLADO (TV BOX)
+// ==========================================
 document.addEventListener('keydown', (e) => {
     const activeElement = document.activeElement;
     const isInSidebar = activeElement && activeElement.classList.contains('channel-item');
@@ -260,13 +276,16 @@ function toggleFullscreen() {
     }
 }
 
+// ==========================================
+// INICIALIZACIÓN DE LA APLICACIÓN
+// ==========================================
 window.onload = () => {
     renderChannels();
     playChannel(0); 
     const firstItem = document.querySelector('.channel-item');
     if (firstItem) firstItem.focus();
 
-    // Ocultar tu Splash Screen personalizado después de 2.2 segundos
+    // Ocultar el Splash Screen personalizado después de 2.2 segundos
     setTimeout(() => {
         const splash = document.getElementById('customSplash');
         if (splash) {

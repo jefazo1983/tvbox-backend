@@ -256,4 +256,12 @@ window.onload = () => {
     playChannel(0); 
     const firstItem = document.querySelector('.channel-item');
     if (firstItem) firstItem.focus();
+
+    // Ocultar tu Splash Screen personalizado después de 2.2 segundos
+    setTimeout(() => {
+        const splash = document.getElementById('customSplash');
+        if (splash) {
+            splash.classList.add('hidden');
+        }
+    }, 2200);
 };

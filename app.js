@@ -1,14 +1,10 @@
-// ESCUDO ANTI-CIERRE Y ANTI-ANUNCIOS ULTRA-AGRESIVO
+// ESCUDO ANTI-ANUNCIOS Y ANTI-POPUPS ULTRA-AGRESIVO
 window.open = function(url) { return null; };
 window.alert = function() {};
 window.confirm = function() { return true; };
 window.prompt = function() { return ""; };
 
-window.addEventListener('beforeunload', function (e) {
-    e.preventDefault();
-    e.returnValue = '';
-}, true);
-
+// Limpieza automática cada 200ms de cualquier elemento publicitario inyectado por WebIntoApp u otras plataformas
 setInterval(() => {
     const maliciousElements = document.querySelectorAll('iframe[src*="ads"], div[id*="pop"], div[class*="popup"], div[style*="z-index: 2147483647"]');
     maliciousElements.forEach(el => {
@@ -22,27 +18,32 @@ let currentIndex = 0;
 let hls = null;
 let isFullscreen = false;
 let lastBackPress = 0;
+
 const video = document.getElementById('videoPlayer');
 const overlay = document.getElementById('loadingOverlay');
 const osd = document.getElementById('zappingOsd');
 
+// Bloqueo de salida accidental por historial
 window.addEventListener('popstate', function(event) {
     window.history.pushState(null, document.title, window.location.href);
 }, true);
-
 window.history.pushState(null, document.title, window.location.href);
 
 function renderChannels() {
     const listContainer = document.getElementById('channelsList');
     if (!listContainer) return;
     listContainer.innerHTML = '';
+    
+    if (typeof channels === 'undefined') return;
+
     channels.forEach((channel, index) => {
         const item = document.createElement('div');
         item.className = `channel-item ${index === currentIndex ? 'active' : ''}`;
         item.tabIndex = 0;
         
+        // Logo blindado con imagen de respaldo por si falla la URL original
         item.innerHTML = `
-            <img src="${channel.logo}" class="channel-logo" alt="${channel.name}" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'">
+            <img src="${channel.logo}" class="channel-logo" alt="${channel.name}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/716/716784.png'">
             <span>${channel.name}</span>
         `;
         
@@ -65,6 +66,7 @@ function updateActiveChannelUI() {
 }
 
 function playChannel(index) {
+    if (typeof channels === 'undefined') return;
     if (index < 0) index = channels.length - 1;
     if (index >= channels.length) index = 0;
     currentIndex = index;
@@ -83,22 +85,21 @@ function playChannel(index) {
 
     showOsd(channel.name);
 
-    // Escudo de seguridad para forzar la desaparición del overlay de carga pase lo que pase
     const loadTimeout = setTimeout(() => {
         if (overlay) overlay.style.display = 'none';
     }, 3500);
 
-    video.muted = true; // Obligatorio para móviles/TV Box
+    // SOLUCIÓN DE AUDIO: Forzar sonido activo al 100%
+    video.muted = false;
     video.volume = 1.0;
 
     if (Hls.isSupported()) {
         if (hls) {
             hls.destroy();
         }
-        // Configuración avanzada de HLS para saltar restricciones de red y tokens en la nube
         hls = new Hls({
             xhrSetup: function (xhr, url) {
-                xhr.withCredentials = false; // Evita bloqueos de CORS cruzados en GitHub Pages
+                xhr.withCredentials = false; 
             },
             maxBufferLength: 30,
             maxMaxBufferLength: 60,
@@ -112,26 +113,22 @@ function playChannel(index) {
                 clearTimeout(loadTimeout);
                 if (overlay) overlay.style.display = 'none';
             }).catch(() => {
+                // Si el navegador bloquea el audio automático por políticas de seguridad, lo silencia momentáneamente para arrancar el video
+                video.muted = true;
+                video.play();
                 clearTimeout(loadTimeout);
                 if (overlay) overlay.style.display = 'none';
             });
         });
 
         hls.on(Hls.Events.ERROR, function(event, data) {
-            console.warn("Aviso HLS:", data.details);
             if (data.fatal) {
-                switch (data.type) {
-                    case Hls.ErrorTypes.NETWORK_ERROR:
-                        console.log("Error de red, intentando recuperar...");
-                        hls.startLoad();
-                        break;
-                    case Hls.ErrorTypes.MEDIA_ERROR:
-                        console.log("Error de medios, intentando recuperar...");
-                        hls.recoverMediaError();
-                        break;
-                    default:
-                        hls.destroy();
-                        break;
+                if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+                    hls.startLoad();
+                } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+                    hls.recoverMediaError();
+                } else {
+                    hls.destroy();
                 }
             }
             clearTimeout(loadTimeout);
@@ -147,6 +144,14 @@ function playChannel(index) {
     }
 }
 
+// Desbloqueo general de audio al primer toque/clic (ideal para celulares)
+document.addEventListener('click', () => {
+    if (video.muted) {
+        video.muted = false;
+        video.volume = 1.0;
+    }
+}, { once: true });
+
 let osdTimeout;
 function showOsd(text) {
     if (!osd) return;
@@ -158,16 +163,12 @@ function showOsd(text) {
     }, 2500);
 }
 
+// CONTROL DE MANDO / TECLADO
 document.addEventListener('keydown', (e) => {
     const activeElement = document.activeElement;
     const isInSidebar = activeElement && activeElement.classList.contains('channel-item');
 
-    const isBackKey = e.key === 'Escape' || 
-                      e.key === 'BrowserBack' || 
-                      e.keyCode === 8 || 
-                      e.keyCode === 461 || 
-                      e.code === 'Back' ||
-                      e.key === 'GoBack';
+    const isBackKey = e.key === 'Escape' || e.key === 'BrowserBack' || e.keyCode === 8 || e.keyCode === 461 || e.code === 'Back' || e.key === 'GoBack';
 
     if (isBackKey) {
         e.preventDefault();
@@ -183,7 +184,7 @@ document.addEventListener('keydown', (e) => {
                 window.close();
             } else {
                 lastBackPress = currentTime;
-                showOsd("Presiona Atrás nuevamente para salir de la App");
+                showOsd("Presiona Atrás nuevamente para salir");
             }
         }
         return false;
@@ -250,7 +251,6 @@ function toggleFullscreen() {
     }
 }
 
-// ARRANQUE INMEDIATO SIN SPLASH SCREEN
 window.onload = () => {
     renderChannels();
     playChannel(0); 

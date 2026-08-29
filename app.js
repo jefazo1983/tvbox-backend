@@ -56,12 +56,18 @@ function renderChannels() {
             svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#0284c7"/><text x="5" y="15" fill="#fff" font-size="8" font-weight="900">DS</text></svg>`;
         } else if (name.includes('espn premium')) {
             svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#7c3aed"/><text x="2" y="15" fill="#fff" font-size="6" font-weight="900">PREM</text></svg>`;
+        } else if (name.includes('espn deportes')) {
+            svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#b91c1c"/><text x="2" y="15" fill="#fff" font-size="5.5" font-weight="900">EDEP</text></svg>`;
         } else if (name.includes('espn 2')) {
             svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#dc2626"/><text x="3" y="15" fill="#fff" font-size="7" font-weight="900">E2</text></svg>`;
         } else if (name.includes('espn 3')) {
             svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#dc2626"/><text x="3" y="15" fill="#fff" font-size="7" font-weight="900">E3</text></svg>`;
         } else if (name.includes('espn')) {
             svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#dc2626"/><text x="2" y="15" fill="#fff" font-size="6" font-weight="900">ESPN</text></svg>`;
+        } else if (name.includes('fox deportes')) {
+            svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#1d4ed8"/><text x="3" y="15" fill="#fff" font-size="6" font-weight="900">FOX</text></svg>`;
+        } else if (name.includes('tudn')) {
+            svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#0284c7"/><text x="3" y="15" fill="#fff" font-size="6.5" font-weight="900">TUDN</text></svg>`;
         } else if (name.includes('tnt')) {
             svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#059669"/><text x="3" y="15" fill="#fff" font-size="7" font-weight="900">TNT</text></svg>`;
         } else {

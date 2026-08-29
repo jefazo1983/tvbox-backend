@@ -315,16 +315,51 @@ document.addEventListener('keydown', (e) => {
     }
 }, true);
 
-window.onload = () => {
-    renderChannels();
-    playChannel(0); 
-    const firstItem = document.querySelector('.channel-item');
-    if (firstItem) firstItem.focus();
+// ==========================================
+// INICIALIZACIÓN DESDE EL GIST DE GITHUB
+// ==========================================
 
-    setTimeout(() => {
-        const splash = document.getElementById('customSplash');
-        if (splash) {
-            splash.classList.add('hidden');
-        }
-    }, 2200);
+// Variable global donde se almacenarán los canales descargados del Gist
+let channels = [];
+
+// Reemplaza esta URL con la URL "Raw" exacta de tu Gist channels.json
+const GIST_RAW_URL = 'https://gist.githubusercontent.com/jefazo1983/31a525e12c0a5d85a8f5850bc5951c35/raw/channels.json';
+
+window.onload = () => {
+    const loadText = document.getElementById('loadingText');
+    if (loadText) loadText.innerText = "Cargando lista de canales...";
+
+    // Hacemos un fetch para obtener el JSON directamente desde tu Gist de GitHub
+    fetch(GIST_RAW_URL)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('No se pudo cargar la lista de canales desde el Gist.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            channels = data; // Asignamos los datos del JSON a tu variable de canales
+            
+            if (Array.isArray(channels) && channels.length > 0) {
+                renderChannels();
+                playChannel(0); 
+                
+                const firstItem = document.querySelector('.channel-item');
+                if (firstItem) firstItem.focus();
+            } else {
+                console.error("El Gist no contiene un array de canales válido.");
+            }
+        })
+        .catch(error => {
+            console.error("Error al obtener el Gist:", error);
+            if (loadText) loadText.innerText = "Error al cargar los canales.";
+        })
+        .finally(() => {
+            setTimeout(() => {
+                const splash = document.getElementById('customSplash');
+                if (splash) {
+                    splash.classList.add('hidden');
+                }
+            }, 2200);
+        });
 };

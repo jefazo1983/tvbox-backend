@@ -1,155 +1,82 @@
+/* --- CONFIGURACIÓN GENERAL --- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background-color: #0b0f19; color: #f3f4f6; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; height: 100vh; display: flex; overflow: hidden; }
 
-/* SIDEBAR / MENÚ LATERAL */
+/* --- SIDEBAR / MENÚ LATERAL --- */
 .sidebar { width: 320px; background-color: #0f172a; border-right: 1px solid #1e293b; display: flex; flex-direction: column; height: 100vh; z-index: 10; box-shadow: 5px 0 25px rgba(0,0,0,0.5); }
-.sidebar-header { padding: 22px; font-size: 19px; font-weight: 800; color: #38bdf8; border-bottom: 1px solid #1e293b; background-color: #090d16; display: flex; align-items: center; gap: 10px; letter-spacing: 0.5px; }
+.sidebar-header { padding: 16px 20px; background-color: #090d16; border-bottom: 1px solid #1e293b; display: flex; align-items: center; }
+.header-brand { display: flex; align-items: center; gap: 12px; font-size: 17px; font-weight: 800; color: #38bdf8; letter-spacing: 0.5px; }
 .badge { background: #0284c7; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
 
+/* --- LISTA DE CANALES Y SCROLLBAR --- */
 .channels-list { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; scrollbar-width: thin; scrollbar-color: #334155 #0f172a; }
 .channels-list::-webkit-scrollbar { width: 6px; }
 .channels-list::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
 
-/* ESTILO DE CADA CANAL (MEJORA VISUAL) */
+/* --- ESTILO DE CADA CANAL --- */
 .channel-item { background-color: #1e293b; color: #94a3b8; border: 2px solid transparent; padding: 12px 14px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 14px; font-size: 15px; font-weight: 600; transition: all 0.2s ease; }
 .channel-logo { width: 38px; height: 38px; object-fit: contain; background-color: rgba(255, 255, 255, 0.03); border-radius: 8px; padding: 3px; border: 1px solid rgba(255,255,255,0.05); }
 
-/* ESTADOS DE FOCO Y SELECCIÓN (TV BOX / MANDO) */
-.channel-item:focus, .channel-item.active { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #ffffff; border-color: #38bdf8; outline: none; transform: scale(1.02); box-shadow: 0 4px 20px rgba(56, 189, 248, 0.3); }
-.channel-item:focus .channel-logo, .channel-item.active .channel-logo { border-color: rgba(255,255,255,0.3); background: rgba(0,0,0,0.15); }
+/* --- LOGOS SVG PARA LOS CANALES --- */
+.channel-svg-logo { width: 38px; height: 38px; background-color: rgba(255, 255, 255, 0.03); border-radius: 8px; padding: 4px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; }
+.channel-svg-logo svg { width: 100%; height: 100%; }
 
-/* CONTENIDO PRINCIPAL Y VIDEO */
+/* --- ESTADOS DE FOCO Y SELECCIÓN (TV BOX / MANDO) --- */
+.channel-item:focus, .channel-item.active { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #ffffff; border-color: #38bdf8; outline: none; transform: scale(1.02); box-shadow: 0 4px 20px rgba(56, 189, 248, 0.3); }
+.channel-item:focus .channel-logo, .channel-item.active .channel-logo,
+.channel-item:focus .channel-svg-logo, .channel-item.active .channel-svg-logo { border-color: rgba(255,255,255,0.3); background: rgba(0,0,0,0.15); }
+
+/* --- CONTENIDO PRINCIPAL Y VIDEO --- */
 .main-content { flex: 1; display: flex; flex-direction: column; background-color: #000000; position: relative; height: 100vh; }
 .video-container { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; background-color: #000; }
 video { width: 100%; height: 100%; object-fit: contain; outline: none; }
 
-/* PANTALLA COMPLETA */
+/* --- PANTALLA COMPLETA --- */
 body.fullscreen-mode .sidebar { display: none !important; }
 body.fullscreen-mode .main-content { width: 100vw; height: 100vh; }
 
-/* OSD (MENSAJE FLOTANTE DE CANAL) */
+/* --- OSD (MENSAJE FLOTANTE DE CANAL) --- */
 .zapping-osd { position: absolute; top: 25px; left: 25px; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(8px); border: 1px solid #38bdf8; color: white; padding: 10px 20px; border-radius: 10px; font-size: 16px; font-weight: bold; z-index: 100; display: none; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
 
-/* PANTALLA DE CARGA ELEGANTE */
+/* --- PANTALLA DE CARGA ELEGANTE (SPINNER GENERAL) --- */
 .loading-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(3, 7, 18, 0.92); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5; color: #38bdf8; font-size: 16px; font-weight: bold; gap: 14px; }
 .spinner { width: 48px; height: 48px; border: 4px solid rgba(56, 189, 248, 0.1); border-top: 4px solid #38bdf8; border-radius: 50%; animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-/* DISEÑO RESPONSIVE PARA CELULARES (MANTIENE ESTRUCTURA) */
-@media screen and (max-width: 768px) {
-    body { flex-direction: column; }
-    .sidebar { width: 100vw; height: 50vh; border-right: none; border-top: 1px solid #1e293b; }
-    .main-content { width: 100vw; height: 50vh; flex: none; }
-}
+/* --- SPLASH SCREEN PERSONALIZADO --- */
+.custom-splash { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #030712; display: flex; align-items: center; justify-content: center; z-index: 99999; transition: opacity 0.6s ease, visibility 0.6s ease; }
+.custom-splash.hidden { opacity: 0; visibility: hidden; }
+.splash-content { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
 
-/* --- ESTILOS DEL SPLASH SCREEN PERSONALIZADO --- */
-.custom-splash {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #030712; /* Fondo oscuro elegante */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 99999; /* Asegura que esté por encima de todo */
-    transition: opacity 0.6s ease, visibility 0.6s ease;
-}
+.splash-logo-container { width: 85px; height: 85px; background: rgba(56, 189, 248, 0.1); border: 2px solid #38bdf8; border-radius: 20px; display: flex; align-items: center; justify-content: center; animation: pulseLogo 1.5s infinite alternate; box-shadow: 0 0 25px rgba(56, 189, 248, 0.3); }
+.splash-svg-logo { width: 45px; height: 45px; }
 
-.splash-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    text-align: center;
-}
+.custom-splash h1 { color: #f3f4f6; font-size: 26px; font-weight: 800; letter-spacing: 1px; }
+.custom-splash p { color: #94a3b8; font-size: 14px; }
 
-.splash-logo {
-    width: 90px;
-    height: 90px;
-    object-fit: contain;
-    animation: pulseLogo 1.5s infinite alternate;
-}
+.splash-spinner { width: 40px; height: 40px; border: 3px solid rgba(56, 189, 248, 0.2); border-top: 3px solid #38bdf8; border-radius: 50%; animation: spin 0.8s linear infinite; margin-top: 10px; }
 
-.custom-splash h1 {
-    color: #f3f4f6;
-    font-size: 26px;
-    font-weight: 800;
-    letter-spacing: 1px;
-}
-
-.custom-splash p {
-    color: #94a3b8;
-    font-size: 14px;
-}
-
-.splash-spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid rgba(56, 189, 248, 0.2);
-    border-top: 3px solid #38bdf8;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin-top: 10px;
-}
-
-/* Animación sutil de parpadeo para el logo */
 @keyframes pulseLogo {
     0% { transform: scale(1); opacity: 0.8; }
     100% { transform: scale(1.08); opacity: 1; }
 }
 
-/* Clase para ocultar el splash con desvanecimiento */
-.custom-splash.hidden {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.channel-logo { 
-    width: 38px; 
-    height: 38px; 
-    object-fit: contain; /* Evita que la imagen se deforme */
-    background-color: rgba(255, 255, 255, 0.03); 
-    border-radius: 8px; 
-    padding: 3px; 
-}
-
-/* --- NUEVO CONTENEDOR PARA EL LOGO SVG DEL SPLASH --- */
-.splash-logo-container {
-    width: 85px;
-    height: 85px;
-    background: rgba(56, 189, 248, 0.1);
-    border: 2px solid #38bdf8;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: pulseLogo 1.5s infinite alternate;
-    box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
-}
-
-.splash-svg-logo {
-    width: 45px;
-    height: 45px;
-}
+/* --- LOGO SUPERIOR DEL HEADER (CON EFECTO BLUR / CRISTAL) --- */
 .header-svg-logo {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
+    padding: 5px;
+    background: rgba(2, 132, 199, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(2, 132, 199, 0.2);
 }
 
-.channel-svg-logo {
-    width: 38px;
-    height: 38px;
-    background-color: rgba(255, 255, 255, 0.03);
-    border-radius: 8px;
-    padding: 4px;
-    border: 1px solid rgba(255,255,255,0.05);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.channel-svg-logo svg {
-    width: 100%;
-    height: 100%;
+/* --- DISEÑO RESPONSIVE PARA CELULARES --- */
+@media screen and (max-width: 768px) {
+    body { flex-direction: column; }
+    .sidebar { width: 100vw; height: 50vh; border-right: none; border-top: 1px solid #1e293b; }
+    .main-content { width: 100vw; height: 50vh; flex: none; }
 }

@@ -12,8 +12,14 @@
     <!-- 🌟 TU PROPIO SPLASH SCREEN PERSONALIZADO -->
     <div id="customSplash" class="custom-splash">
         <div class="splash-content">
-            <!-- Puedes cambiar esta imagen por el enlace de tu propio logo -->
-            <img src="https://i.imgur.com/8359y87.png" alt="Logo" class="splash-logo">
+            <!-- LOGO SVG INTEGRADO (Nunca falla y no necesita enlaces externos) -->
+            <div class="splash-logo-container">
+                <svg class="splash-svg-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="4" width="20" height="15" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="2"/>
+                    <path d="M12 19V22M8 22H16" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M10 9L15 11.5L10 14V9Z" fill="#ffffff"/>
+                </svg>
+            </div>
             <h1>JefazoBox TV</h1>
             <p>Cargando tu entretenimiento...</p>
             <div class="splash-spinner"></div>

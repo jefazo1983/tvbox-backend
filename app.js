@@ -6,7 +6,6 @@ window.alert = function() {};
 window.confirm = function() { return true; };
 window.prompt = function() { return ""; };
 
-// Limpieza automática cada 200ms de elementos publicitarios inyectados
 setInterval(() => {
     const maliciousElements = document.querySelectorAll('iframe[src*="ads"], div[id*="pop"], div[class*="popup"], div[style*="z-index: 2147483647"]');
     maliciousElements.forEach(el => {
@@ -16,9 +15,6 @@ setInterval(() => {
     });
 }, 200);
 
-// ==========================================
-// VARIABLES GLOBALES Y ELEMENTOS
-// ==========================================
 let currentIndex = 0;
 let hls = null;
 let isFullscreen = false;
@@ -28,14 +24,13 @@ const video = document.getElementById('videoPlayer');
 const overlay = document.getElementById('loadingOverlay');
 const osd = document.getElementById('zappingOsd');
 
-// Bloqueo de salida accidental por historial
 window.addEventListener('popstate', function(event) {
     window.history.pushState(null, document.title, window.location.href);
 }, true);
 window.history.pushState(null, document.title, window.location.href);
 
 // ==========================================
-// RENDERIZADO DE CANALES Y LOGOS SVG
+// RENDERIZADO DE CANALES CON LOGOS SVG ÚNICOS
 // ==========================================
 function renderChannels() {
     const listContainer = document.getElementById('channelsList');
@@ -49,14 +44,28 @@ function renderChannels() {
         item.className = `channel-item ${index === currentIndex ? 'active' : ''}`;
         item.tabIndex = 0;
         
-        // Generador inteligente de logos SVG por código
         let svgLogo = '';
-        if (channel.type.includes('dsports')) {
-            svgLogo = `<svg viewBox="0 0 24 24" fill="#0284c7"><path d="M4 6h16v12H4z" opacity="0.2"/><path d="M6 9h12v6H6z" fill="#38bdf8"/><text x="7" y="14" fill="#fff" font-size="7" font-weight="bold">DS</text></svg>`;
-        } else if (channel.type.includes('espn')) {
-            svgLogo = `<svg viewBox="0 0 24 24" fill="#ef4444"><path d="M3 7h18v10H3z"/><text x="5" y="14" fill="#fff" font-size="7" font-weight="bold">ESPN</text></svg>`;
+        const name = channel.name.toLowerCase();
+
+        // Logos SVG personalizados por canal
+        if (name.includes('dsports +') || name.includes('dsports+')) {
+            svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#0284c7"/><text x="3" y="15" fill="#fff" font-size="7" font-weight="900">DS+</text></svg>`;
+        } else if (name.includes('dsports 2')) {
+            svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#0284c7"/><text x="4" y="15" fill="#fff" font-size="7" font-weight="900">DS2</text></svg>`;
+        } else if (name.includes('dsports')) {
+            svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#0284c7"/><text x="5" y="15" fill="#fff" font-size="8" font-weight="900">DS</text></svg>`;
+        } else if (name.includes('espn premium')) {
+            svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#7c3aed"/><text x="2" y="15" fill="#fff" font-size="6" font-weight="900">PREM</text></svg>`;
+        } else if (name.includes('espn 2')) {
+            svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#dc2626"/><text x="3" y="15" fill="#fff" font-size="7" font-weight="900">E2</text></svg>`;
+        } else if (name.includes('espn 3')) {
+            svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#dc2626"/><text x="3" y="15" fill="#fff" font-size="7" font-weight="900">E3</text></svg>`;
+        } else if (name.includes('espn')) {
+            svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#dc2626"/><text x="2" y="15" fill="#fff" font-size="6" font-weight="900">ESPN</text></svg>`;
+        } else if (name.includes('tnt')) {
+            svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#059669"/><text x="3" y="15" fill="#fff" font-size="7" font-weight="900">TNT</text></svg>`;
         } else {
-            svgLogo = `<svg viewBox="0 0 24 24" fill="#10b981"><path d="M3 7h18v10H3z"/><text x="5" y="14" fill="#fff" font-size="7" font-weight="bold">TNT</text></svg>`;
+            svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#334155"/><text x="6" y="15" fill="#fff" font-size="8" font-weight="900">TV</text></svg>`;
         }
 
         item.innerHTML = `
@@ -82,9 +91,6 @@ function updateActiveChannelUI() {
     });
 }
 
-// ==========================================
-// REPRODUCTOR Y GESTIÓN DE CANALES
-// ==========================================
 function playChannel(index) {
     if (typeof channels === 'undefined') return;
     if (index < 0) index = channels.length - 1;
@@ -109,7 +115,6 @@ function playChannel(index) {
         if (overlay) overlay.style.display = 'none';
     }, 3500);
 
-    // Forzar sonido activo al 100%
     video.muted = false;
     video.volume = 1.0;
 
@@ -133,7 +138,6 @@ function playChannel(index) {
                 clearTimeout(loadTimeout);
                 if (overlay) overlay.style.display = 'none';
             }).catch(() => {
-                // Silenciar momentáneamente si el navegador bloquea el autoplay con sonido
                 video.muted = true;
                 video.play();
                 clearTimeout(loadTimeout);
@@ -164,7 +168,6 @@ function playChannel(index) {
     }
 }
 
-// Desbloqueo universal de audio al primer clic/toque
 document.addEventListener('click', () => {
     if (video.muted) {
         video.muted = false;
@@ -172,9 +175,6 @@ document.addEventListener('click', () => {
     }
 }, { once: true });
 
-// ==========================================
-// OSD (MENSAJE FLOTANTE)
-// ==========================================
 let osdTimeout;
 function showOsd(text) {
     if (!osd) return;
@@ -186,9 +186,6 @@ function showOsd(text) {
     }, 2500);
 }
 
-// ==========================================
-// CONTROL DE MANDO / TECLADO (TV BOX)
-// ==========================================
 document.addEventListener('keydown', (e) => {
     const activeElement = document.activeElement;
     const isInSidebar = activeElement && activeElement.classList.contains('channel-item');
@@ -276,16 +273,12 @@ function toggleFullscreen() {
     }
 }
 
-// ==========================================
-// INICIALIZACIÓN DE LA APLICACIÓN
-// ==========================================
 window.onload = () => {
     renderChannels();
     playChannel(0); 
     const firstItem = document.querySelector('.channel-item');
     if (firstItem) firstItem.focus();
 
-    // Ocultar el Splash Screen personalizado después de 2.2 segundos
     setTimeout(() => {
         const splash = document.getElementById('customSplash');
         if (splash) {

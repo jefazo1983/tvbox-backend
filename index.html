@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JefazoBox</title>
-    <!-- Incluimos HLS.js para reproducir los canales .m3u8 -->
-    <script src="hls.min.js"></script>
+    <title>JefazoBox TV</title>
+    <!-- HLS.js por CDN para asegurar compatibilidad total sin depender de archivos locales rotos -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <!-- MENÚ LATERAL DE CANALES -->
     <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">📺 JefazoBox TV</div>
+        <div class="sidebar-header">
+            <span class="logo-icon">⚡</span> JefazoBox <span class="badge">PRO</span>
+        </div>
         <div class="channels-list" id="channelsList"></div>
     </div>
 
@@ -24,7 +26,8 @@
                 <span id="loadingText">Cargando transmisión...</span>
             </div>
             <div id="zappingOsd" class="zapping-osd">Canal 1</div>
-            <video id="videoPlayer" controls autoplay playsinline></video>
+            <!-- Se quita 'controls' nativo para que luzca como app de TV limpia -->
+            <video id="videoPlayer" autoplay playsinline></video>
         </div>
     </div>
 

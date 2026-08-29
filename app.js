@@ -41,9 +41,18 @@ function renderChannels() {
         item.className = `channel-item ${index === currentIndex ? 'active' : ''}`;
         item.tabIndex = 0;
         
-        // Logo blindado con imagen de respaldo por si falla la URL original
+        // Generador inteligente de logos SVG por código (sin enlaces externos)
+        let svgLogo = '';
+        if (channel.type.includes('dsports')) {
+            svgLogo = `<svg viewBox="0 0 24 24" fill="#0284c7"><path d="M4 6h16v12H4z" opacity="0.2"/><path d="M6 9h12v6H6z" fill="#38bdf8"/><text x="7" y="14" fill="#fff" font-size="7" font-weight="bold">DS</text></svg>`;
+        } else if (channel.type.includes('espn')) {
+            svgLogo = `<svg viewBox="0 0 24 24" fill="#ef4444"><path d="M3 7h18v10H3z"/><text x="5" y="14" fill="#fff" font-size="7" font-weight="bold">ESPN</text></svg>`;
+        } else {
+            svgLogo = `<svg viewBox="0 0 24 24" fill="#10b981"><path d="M3 7h18v10H3z"/><text x="5" y="14" fill="#fff" font-size="7" font-weight="bold">TNT</text></svg>`;
+        }
+
         item.innerHTML = `
-            <img src="${channel.logo}" class="channel-logo" alt="${channel.name}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/716/716784.png'">
+            <div class="channel-svg-logo">${svgLogo}</div>
             <span>${channel.name}</span>
         `;
         

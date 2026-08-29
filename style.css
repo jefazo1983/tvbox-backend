@@ -96,9 +96,11 @@ body.fullscreen-mode .main-content { width: 100vw; height: 100vh; }
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
-.fullscreen-btn:hover {
+.fullscreen-btn:hover, .fullscreen-btn:focus {
     background: #0284c7;
     color: #ffffff;
     border-color: #38bdf8;
+    outline: none;
     transform: scale(1.05);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.4), 0 4px 15px rgba(0,0,0,0.5);
 }

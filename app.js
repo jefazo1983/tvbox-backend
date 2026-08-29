@@ -23,6 +23,7 @@ let lastBackPress = 0;
 const video = document.getElementById('videoPlayer');
 const overlay = document.getElementById('loadingOverlay');
 const osd = document.getElementById('zappingOsd');
+const fullscreenBtn = document.getElementById('fullscreenBtn');
 
 window.addEventListener('popstate', function(event) {
     window.history.pushState(null, document.title, window.location.href);
@@ -30,7 +31,7 @@ window.addEventListener('popstate', function(event) {
 window.history.pushState(null, document.title, window.location.href);
 
 // ==========================================
-// RENDERIZADO DE CANALES CON LOGOS SVG ÚNICOS
+// RENDERIZADO DE CANALES
 // ==========================================
 function renderChannels() {
     const listContainer = document.getElementById('channelsList');
@@ -47,7 +48,6 @@ function renderChannels() {
         let svgLogo = '';
         const name = channel.name.toLowerCase();
 
-        // Logos SVG personalizados por canal
         if (name.includes('dsports +') || name.includes('dsports+')) {
             svgLogo = `<svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#0284c7"/><text x="3" y="15" fill="#fff" font-size="7" font-weight="900">DS+</text></svg>`;
         } else if (name.includes('dsports 2')) {
@@ -186,10 +186,59 @@ function showOsd(text) {
     }, 2500);
 }
 
+// ==========================================
+// GESTIÓN DE PANTALLA COMPLETA (BOTÓN Y MANDO)
+// ==========================================
+if (fullscreenBtn) {
+    fullscreenBtn.onclick = () => {
+        toggleFullscreen();
+    };
+}
+
+function toggleFullscreen() {
+    isFullscreen = !isFullscreen;
+    const container = document.getElementById('videoContainer');
+
+    if (isFullscreen) {
+        document.body.classList.add('fullscreen-mode');
+        showOsd(channels[currentIndex].name);
+
+        // Activar pantalla completa nativa del navegador (Funciona en móviles y PC)
+        if (container.requestFullscreen) {
+            container.requestFullscreen();
+        } else if (container.webkitRequestFullscreen) {
+            container.webkitRequestFullscreen();
+        } else if (video.webkitEnterFullscreen) {
+            video.webkitEnterFullscreen(); // Específico para algunos iOS / Safari móvil
+        }
+    } else {
+        document.body.classList.remove('fullscreen-mode');
+        
+        // Salir de pantalla completa nativa
+        if (document.fullscreenElement || document.webkitFullscreenElement) {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        }
+        
+        const currentItem = document.querySelectorAll('.channel-item')[currentIndex];
+        if (currentItem) currentItem.focus();
+    }
+}
+
+// Detectar si el usuario sale de pantalla completa mediante la tecla ESC del navegador
+document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        isFullscreen = false;
+        document.body.classList.remove('fullscreen-mode');
+    }
+});
+
 document.addEventListener('keydown', (e) => {
     const activeElement = document.activeElement;
     const isInSidebar = activeElement && activeElement.classList.contains('channel-item');
-
     const isBackKey = e.key === 'Escape' || e.key === 'BrowserBack' || e.keyCode === 8 || e.keyCode === 461 || e.code === 'Back' || e.key === 'GoBack';
 
     if (isBackKey) {
@@ -210,19 +259,6 @@ document.addEventListener('keydown', (e) => {
             }
         }
         return false;
-    }
-
-    if (e.key === 'ArrowRight' && isInSidebar) {
-        e.preventDefault();
-        video.focus();
-        return;
-    }
-
-    if (e.key === 'ArrowLeft' && !isFullscreen && !isInSidebar) {
-        e.preventDefault();
-        const currentItem = document.querySelectorAll('.channel-item')[currentIndex];
-        if (currentItem) currentItem.focus();
-        return;
     }
 
     if (e.key === 'Enter') {
@@ -259,19 +295,6 @@ document.addEventListener('keydown', (e) => {
         }
     }
 }, true);
-
-function toggleFullscreen() {
-    isFullscreen = !isFullscreen;
-    if (isFullscreen) {
-        document.body.classList.add('fullscreen-mode');
-        video.focus();
-        showOsd(channels[currentIndex].name);
-    } else {
-        document.body.classList.remove('fullscreen-mode');
-        const currentItem = document.querySelectorAll('.channel-item')[currentIndex];
-        if (currentItem) currentItem.focus();
-    }
-}
 
 window.onload = () => {
     renderChannels();

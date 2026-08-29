@@ -2,7 +2,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background-color: #0b0f19; color: #f3f4f6; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; height: 100vh; display: flex; overflow: hidden; }
 
-/* --- SIDEBAR / MENÚ LATERAL (Más elegante y estrecho: 260px) --- */
+/* --- SIDEBAR / MENÚ LATERAL (Elegante y estrecho: 260px) --- */
 .sidebar { width: 260px; background-color: #090d16; border-right: 1px solid rgba(255,255,255,0.06); display: flex; flex-direction: column; height: 100vh; z-index: 10; box-shadow: 8px 0 30px rgba(0,0,0,0.6); }
 .sidebar-header { padding: 16px 18px; background-color: #070a10; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; }
 .header-brand { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 800; color: #38bdf8; letter-spacing: 0.5px; }
@@ -26,7 +26,7 @@ body { background-color: #0b0f19; color: #f3f4f6; font-family: 'Segoe UI', Robot
 .channel-item:focus .channel-svg-logo, .channel-item.active .channel-svg-logo { border-color: rgba(56, 189, 248, 0.5); background: rgba(2, 132, 199, 0.2); }
 
 /* --- CONTENIDO PRINCIPAL Y VIDEO --- */
-.main-content { flex: 1; display: flex; flex-direction: column; background-color: #000000; position: relative; height: 100vh; }
+.main-content { flex: 1; display: flex; flex-direction: column; background-color: #000000; position: relative; height: 100vh; order: 2; }
 .video-container { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; background-color: #000; }
 video { width: 100%; height: 100%; object-fit: contain; outline: none; }
 
@@ -68,13 +68,6 @@ body.fullscreen-mode .main-content { width: 100vw; height: 100vh; }
     box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
 }
 
-/* --- RESPONSIVE --- */
-@media screen and (max-width: 768px) {
-    body { flex-direction: column; }
-    .sidebar { width: 100vw; height: 45vh; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .main-content { width: 100vw; height: 55vh; flex: none; }
-}
-
 /* --- BOTÓN FLOTANTE DE PANTALLA COMPLETA --- */
 .fullscreen-btn {
     position: absolute;
@@ -103,4 +96,43 @@ body.fullscreen-mode .main-content { width: 100vw; height: 100vh; }
     outline: none;
     transform: scale(1.05);
     box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.4), 0 4px 15px rgba(0,0,0,0.5);
+}
+
+/* --- RESPONSIVE CORREGIDO PARA MÓVILES (VERTICAL Y HORIZONTAL) --- */
+@media screen and (max-width: 768px) {
+    body { 
+        flex-direction: column; 
+    }
+
+    /* Video fijo y obligado en la parte SUPERIOR */
+    .main-content { 
+        width: 100vw; 
+        height: 38vh; 
+        flex: none;
+        order: 1 !important; 
+    }
+
+    /* Lista de canales obligada en la parte INFERIOR */
+    .sidebar { 
+        width: 100vw; 
+        height: 62vh; 
+        border-right: none; 
+        border-top: 1px solid rgba(255,255,255,0.06);
+        order: 2 !important; 
+    }
+
+    /* Cuadrícula organizada para los canales en vertical */
+    .channels-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        padding: 8px;
+    }
+
+    .fullscreen-btn {
+        top: 10px;
+        right: 10px;
+        width: 36px;
+        height: 36px;
+    }
 }

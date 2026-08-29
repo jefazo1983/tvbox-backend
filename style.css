@@ -114,3 +114,22 @@ body.fullscreen-mode .main-content { width: 100vw; height: 100vh; }
     border-radius: 8px; 
     padding: 3px; 
 }
+
+/* --- NUEVO CONTENEDOR PARA EL LOGO SVG DEL SPLASH --- */
+.splash-logo-container {
+    width: 85px;
+    height: 85px;
+    background: rgba(56, 189, 248, 0.1);
+    border: 2px solid #38bdf8;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulseLogo 1.5s infinite alternate;
+    box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
+}
+
+.splash-svg-logo {
+    width: 45px;
+    height: 45px;
+}

@@ -315,51 +315,61 @@ document.addEventListener('keydown', (e) => {
     }
 }, true);
 
-// ==========================================
-// INICIALIZACIÓN DESDE EL GIST DE GITHUB
-// ==========================================
-
-// Variable global donde se almacenarán los canales descargados del Gist
 let channels = [];
-
-// Reemplaza esta URL con la URL "Raw" exacta de tu Gist channels.json
 const GIST_RAW_URL = 'https://gist.githubusercontent.com/jefazo1983/31a525e12c0a5d85a8f5850bc5951c35/raw/channels.json';
+
+// Lista de respaldo por si el Gist tarda o falla la red en la APK
+const channelsFallback = [
+    { "name": "DSports", "type": "dsports", "url": "" },
+    { "name": "DSports 2", "type": "dsports2", "url": "" },
+    { "name": "DSports +", "type": "dsportsplus", "url": "" },
+    { "name": "ESPN", "type": "espn", "url": "" },
+    { "name": "ESPN 2", "type": "espn2", "url": "" },
+    { "name": "ESPN 3", "type": "espn3", "url": "" },
+    { "name": "ESPN Premium", "type": "espnprem", "url": "" },
+    { "name": "TNT Sports", "type": "tnt", "url": "" }
+];
 
 window.onload = () => {
     const loadText = document.getElementById('loadingText');
     if (loadText) loadText.innerText = "Cargando lista de canales...";
 
-    // Hacemos un fetch para obtener el JSON directamente desde tu Gist de GitHub
-    fetch(GIST_RAW_URL)
+    // Creamos un controlador de tiempo límite (timeout) de 7 segundos para el fetch
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 7000);
+
+    fetch(GIST_RAW_URL, { signal: controller.signal, cache: 'no-store' })
         .then(response => {
-            if (!response.ok) {
-                throw new Error('No se pudo cargar la lista de canales desde el Gist.');
-            }
+            clearTimeout(timeoutId);
+            if (!response.ok) throw new Error('Error al conectar con el Gist');
             return response.json();
         })
         .then(data => {
-            channels = data; // Asignamos los datos del JSON a tu variable de canales
-            
-            if (Array.isArray(channels) && channels.length > 0) {
-                renderChannels();
-                playChannel(0); 
-                
-                const firstItem = document.querySelector('.channel-item');
-                if (firstItem) firstItem.focus();
+            if (Array.isArray(data) && data.length > 0) {
+                channels = data;
             } else {
-                console.error("El Gist no contiene un array de canales válido.");
+                throw new Error('Formato de datos inválido');
             }
         })
         .catch(error => {
-            console.error("Error al obtener el Gist:", error);
-            if (loadText) loadText.innerText = "Error al cargar los canales.";
+            console.warn("Usando canales de respaldo debido a:", error);
+            channels = channelsFallback; // Evita que se quede colgado
         })
         .finally(() => {
+            // Renderizamos e iniciamos la interfaz pase lo que pase
+            if (channels.length > 0) {
+                renderChannels();
+                playChannel(0);
+                const firstItem = document.querySelector('.channel-item');
+                if (firstItem) firstItem.focus();
+            }
+
+            // Ocultamos el Splash Screen obligatoriamente después de cargar
             setTimeout(() => {
                 const splash = document.getElementById('customSplash');
                 if (splash) {
                     splash.classList.add('hidden');
                 }
-            }, 2200);
+            }, 1000);
         });
 };

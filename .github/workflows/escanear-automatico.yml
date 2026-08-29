@@ -1,0 +1,40 @@
+name: Actualizar Canales TVBox
+
+on:
+  # Se ejecutará automáticamente cada 4 horas
+  schedule:
+    - cron: '0 */4 * * *'
+  
+  # Te permite también ejecutarlo manualmente desde la web de GitHub cuando quieras
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: 🐍 Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 📦 Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 🎭 Instalar navegador Playwright
+        run: playwright install chromium
+
+      - name: 🚀 Ejecutar script de extracción
+        run: python escanear_lista.py
+
+      - name: 💾 Guardar y actualizar el archivo en GitHub
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          git add canales_actualizados.json
+          git commit -m "Auto-actualización de enlaces .m3u8 🤖" || echo "No hay cambios para guardar"
+          git push

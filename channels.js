@@ -2,41 +2,41 @@ const channels = [
     {
         "name": "DSports",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/4/45/Directv_Sports_logo_2020.svg",
-        "url": "https://99.domhsd.com/dsports/mono.m3u8?token=d8cf1eb596d4d83f08b171448ae195cfbf9651b1-6d-1793287020-1793269020"
+        "url": "https://93.domhsd.com/dsports/mono.m3u8?token=9d6efdfa02c011fa67c8ea7db3dab0352dcc503b-22-1793312928-1793294928"
     },
     {
         "name": "DSports 2",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/4/45/Directv_Sports_logo_2020.svg",
-        "url": "https://93.domhsd.com/dsports2/mono.m3u8?token=1e830986bfd19efa08c9be81684cc58b46f58dbe-53-1793287026-1793269026"
+        "url": "https://99.domhsd.com/dsports2/mono.m3u8?token=26a6c6d2eca13602b62cad53c0cd13b398bafc19-e-1793312933-1793294933"
     },
     {
         "name": "DSports +",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/4/45/Directv_Sports_logo_2020.svg",
-        "url": "https://93.domhsd.com/dsportsplus/mono.m3u8?token=8f3769371a85a82c2759bdb390a84636b365ba3b-1e-1793287032-1793269032"
+        "url": "https://85.domhsd.com/dsportsplus/mono.m3u8?token=a3bd715a7d14c83ae8339ef6d1664c66a9704b38-a3-1793312939-1793294939"
     },
     {
         "name": "ESPN",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/2/2a/ESPN_logo.svg",
-        "url": "https://93.domhsd.com/espn/mono.m3u8?token=80a6a6e6cb853400177091f534e4b9c9c576f3d3-e2-1793287037-1793269037"
+        "url": "https://93.domhsd.com/espn/mono.m3u8?token=1566a5c34e433e2a34ac4b6e13438fe330ffb067-e2-1793312944-1793294944"
     },
     {
         "name": "ESPN 2",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/2/2a/ESPN_logo.svg",
-        "url": "https://93.domhsd.com/espn2/mono.m3u8?token=5679ecbef17d54cade05fbe27f97b04229c72fbb-46-1793287043-1793269043"
+        "url": "https://85.domhsd.com/espn2/mono.m3u8?token=5d24b510bccd489e31f6d18c34ba7771e5a69bc7-57-1793312950-1793294950"
     },
     {
         "name": "ESPN 3",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/2/2a/ESPN_logo.svg",
-        "url": "https://99.domhsd.com/espn3/mono.m3u8?token=21005847fcffc2218be431688a7ce79bd0493d6c-2b-1793287049-1793269049"
+        "url": "https://99.domhsd.com/espn3/mono.m3u8?token=b787d11ac7a38d55373ee702784c249519e4ee2f-65-1793312955-1793294955"
     },
     {
         "name": "ESPN Premium",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/2/2a/ESPN_logo.svg",
-        "url": "https://99.domhsd.com/espnpremium/mono.m3u8?token=3300f86b7624092400e5b36a91ddbe4ad34956b1-23-1793287054-1793269054"
+        "url": "https://85.domhsd.com/espnpremium/mono.m3u8?token=0281854cdab6035db95a0be3c24d08c114986aba-64-1793312961-1793294961"
     },
     {
         "name": "TNT Sports",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/3/3b/TNT_Sports_logo_2017.svg",
-        "url": "https://85.domhsd.com/tntsports/mono.m3u8?token=f0062c5f7133286cff1bb97d1aa6d33716a2986c-32-1793287060-1793269060"
+        "url": "https://93.domhsd.com/tntsports/mono.m3u8?token=2aeaae56051525f2b2c24bf7af983575dd5832ff-6c-1793312966-1793294966"
     }
 ];
